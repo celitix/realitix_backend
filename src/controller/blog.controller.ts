@@ -35,7 +35,7 @@ const create = async (req: Request, res: Response) => {
       );
     }
 
-    prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       const seoData = await tx.seo.create({
         data: {
           title: seo.title,
@@ -116,8 +116,6 @@ const all = async (req: Request, res: Response) => {
         },
       };
     }
-
-    console.log("role", role);
 
     const blogs = await prisma.blog.findMany({
       where: {

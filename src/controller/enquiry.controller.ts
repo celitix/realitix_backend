@@ -66,53 +66,6 @@ const contact = async (req: Request, res: Response) => {
   }
 };
 
-const career = async (req: Request, res: Response) => {
-  try {
-    const {
-      firstName,
-      lastName,
-      email,
-      mobile,
-      designation,
-      expInYears,
-      jobTitle,
-      resumeUrl,
-      message,
-    } = req.body;
-
-    const file = req.file;
-
-    if (!file) {
-      return responseHandler(
-        res,
-        { message: "No file uploaded", status: false },
-        400,
-      );
-    }
-
-    await prisma.carreerEnquiry.create({
-      data: {
-        firstName,
-        lastName,
-        email,
-        mobile,
-        designation,
-        expInYears,
-        jobTitle,
-        resumeUrl: file.path,
-        message,
-      },
-    });
-    return responseHandler(
-      res,
-      { message: "Enquiry created successfully", status: true },
-      201,
-    );
-  } catch (e: any) {
-    errorHandler(e.message);
-  }
-};
-
 const sendOtp = async (req: Request, res: Response) => {
   try {
     const { mobile } = req.body;
@@ -216,4 +169,4 @@ const verifyOtp = async (req: Request, res: Response) => {
   }
 };
 
-export { contact, career, sendOtp, verifyOtp };
+export { contact, sendOtp, verifyOtp };

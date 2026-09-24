@@ -11,7 +11,6 @@ import cors from "cors";
 import enquiryRoutes from "./routes/enquiry.router";
 import otpRoutes from "./routes/otp.router";
 import blogRoutes from "./routes/blog.router";
-import jobRoutes from "./routes/jobs.router";
 
 const app = express();
 
@@ -51,7 +50,6 @@ const loginLimiter = rateLimit({
 app.use("/api/enquiry", enquiryRoutes);
 app.use("/api/otp", otpRoutes);
 app.use("/api/blog", blogRoutes);
-app.use("/api/job", jobRoutes);
 
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Welcome" });
