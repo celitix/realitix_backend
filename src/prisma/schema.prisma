@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model ContactEnquiry {
+  id          String   @id @default(uuid())
+  firstName   String   @map("first_name")
+  lastName    String   @map("last_name")
+  email       String
+  mobile      String
+  companyName String   @map("company_name")
+  service     String
+  message     String
+  source      String?  @default("contact")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("contact_enquiries")
+}
+
+model Otp {
+  id        String    @id @default(uuid())
+  mobile    String
+  otp       String
+  expiry    DateTime
+  createdAt DateTime  @default(now()) @map("created_at")
+  status    OtpStatus @default(GENRERATED)
+}
+
+model Users {
+  id        String   @id @default(uuid())
+  mobile    String   @unique
+  name      String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Blog {
+  id            String     @id @default(uuid())
+  title         String
+  slug          String     @unique
+  shortDesc     String
+  content       String     @db.LongText
+  category      String
+  tags          String
+  publishedDate DateTime?
+  seoId         String
+  status        BlogStatus @default(DRAFT)
+  image         String
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  seo Seo @relation(fields: [seoId], references: [id], onDelete: Cascade)
+
+  @@map("blogs")
+}
+
+model Seo {
+  id          String @id @default(uuid())
+  title       String
+  description String
+  keywords    String
+  blogs       Blog[]
+}
+
+enum OtpStatus {
+  GENRERATED
+  VERIFIED
+  EXPIRED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum JobStatus {
+  DRAFT
+  PUBLISHED
+}
